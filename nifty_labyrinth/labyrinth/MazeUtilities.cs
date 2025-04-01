@@ -12,6 +12,63 @@ public enum Port
 
 public class MazeUtilities
 {
+    public static List<NodeLink> ExploreMaze(MazeCell start)
+    {
+        List<NodeLink> visited = new();
+        visited = exploreNode(start, visited);
+        return visited;
+    }
+
+    private static List<NodeLink> exploreNode(MazeCell start, List<NodeLink> visited)
+    {
+        if (start == null)
+        {
+            return visited;
+        }
+
+        if (start.North != null)
+        {
+            var next = new NodeLink(start, "N", start.North);
+            if (visited.Contains(next) == false)
+            {
+                visited.Add(next);
+                visited = exploreNode(start.North, visited);
+            }
+        }
+
+        if (start.East != null)
+        {
+            var next = new NodeLink(start, "E", start.East);
+            if (visited.Contains(next) == false)
+            {
+                visited.Add(next);
+                visited = exploreNode(start.East, visited);
+            }
+        }
+
+        if (start.South != null)
+        {
+            var next = new NodeLink(start, "E", start.South);
+            if (visited.Contains(next) == false)
+            {
+                visited.Add(next);
+                visited = exploreNode(start.South, visited);
+            }
+        }
+
+        if (start.West != null)
+        {
+            var next = new NodeLink(start, "E", start.West);
+            if (visited.Contains(next) == false)
+            {
+                visited.Add(next);
+                visited = exploreNode(start.West, visited);
+            }
+        }
+        
+        return visited;
+    }
+
     /**
      * Given a location in a maze, returns whether the given sequence of
      * steps will let you escape the maze. The steps should be given as
@@ -128,7 +185,7 @@ public class MazeUtilities
         {
             for (int col = 0; col < maze.GetLength(1); col++)
             {
-                linearMaze.Add(maze[row,col]);
+                linearMaze.Add(maze[row, col]);
             }
         }
 
@@ -156,7 +213,7 @@ public class MazeUtilities
         /* Java Random is guaranteed to produce the same sequence of values across
          * all systems with the same seed.
          */
-        Random generator = new Random(hashCode(name, new int[]{TWISTY_MAZE_SIZE}));
+        Random generator = new Random(hashCode(name, new int[] { TWISTY_MAZE_SIZE }));
         List<MazeCell> maze = makeTwistyMaze(TWISTY_MAZE_SIZE, generator);
 
         /* Find the distances between all pairs of nodes. */
@@ -223,7 +280,7 @@ public class MazeUtilities
          */
         for (int i = 0; i < maze.Count; i++)
         {
-            int[,] next = new int[maze.Count,maze.Count];
+            int[,] next = new int[maze.Count, maze.Count];
             for (int j = 0; j < maze.Count; j++)
             {
                 for (int k = 0; k < maze.Count; k++)
@@ -249,7 +306,7 @@ public class MazeUtilities
         {
             for (int j = i + 1; j < nodes.Length; j++)
             {
-                result.Add(distances[nodes[i],nodes[j]]);
+                result.Add(distances[nodes[i], nodes[j]]);
             }
         }
 
