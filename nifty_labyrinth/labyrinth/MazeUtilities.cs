@@ -65,7 +65,7 @@ public class MazeUtilities
                 visited = exploreNode(start.West, visited);
             }
         }
-        
+
         return visited;
     }
 
@@ -210,6 +210,57 @@ public class MazeUtilities
      */
     public static MazeCell twistyMazeFor(String name)
     {
+        
+        List<NodeLink> exploreNode(MazeCell start, List<NodeLink> visited)
+        {
+            if (start == null)
+            {
+                return visited;
+            }
+
+            if (start.North != null)
+            {
+                var next = new NodeLink(start, "N", start.North);
+                if (visited.Contains(next) == false)
+                {
+                    visited.Add(next);
+                    visited = exploreNode(start.North, visited);
+                }
+            }
+
+            if (start.East != null)
+            {
+                var next = new NodeLink(start, "E", start.East);
+                if (visited.Contains(next) == false)
+                {
+                    visited.Add(next);
+                    visited = exploreNode(start.East, visited);
+                }
+            }
+
+            if (start.South != null)
+            {
+                var next = new NodeLink(start, "E", start.South);
+                if (visited.Contains(next) == false)
+                {
+                    visited.Add(next);
+                    visited = exploreNode(start.South, visited);
+                }
+            }
+
+            if (start.West != null)
+            {
+                var next = new NodeLink(start, "E", start.West);
+                if (visited.Contains(next) == false)
+                {
+                    visited.Add(next);
+                    visited = exploreNode(start.West, visited);
+                }
+            }
+
+            return visited;
+        }
+
         /* Java Random is guaranteed to produce the same sequence of values across
          * all systems with the same seed.
          */
