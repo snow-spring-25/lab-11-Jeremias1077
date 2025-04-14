@@ -9,12 +9,15 @@ Welcome to the maze game!
 <label>Name
     <input @bind=mazeName />
 </label>
-<a href="/Solutions">Solutions</a>
+
+<button @OnClick @=StartGame <a href="/Solutions">Start</a></button>
+
+
 
 @code{
     string mazeName;
-    void starGame()
+    void startGame()
     {
-        mazeName = userName;
+        MazeCell startLocation = MazeUtilities.mazeFor(mazeName);
     }
 }
