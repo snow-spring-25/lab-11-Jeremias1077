@@ -1,23 +1,36 @@
 ﻿@page "/"
+@inject NavigationManager Navigation
 
 <PageTitle>Home</PageTitle>
 
 <h1>Maze Game</h1>
 
 Welcome to the maze game!
-<br
-<label>Name
-    <input @bind=mazeName />
+<br <label>Name
+<input @bind=mazeName />
 </label>
 
-<button @OnClick @=StartGame <a href="/Solutions">Start</a></button>
+<button @onclick="startGame">Start</button>
+
+<p style="color:red;">@invalidName</p>
 
 
-
-@code{
-    string mazeName;
+@code {
+    public string mazeName;
+    private string? invalidName;
     void startGame()
     {
-        MazeCell startLocation = MazeUtilities.mazeFor(mazeName);
+        if (!string.IsNullOrEmpty(mazeName))
+        {
+            MazeInstance.Instance.StartNewMaze(mazeName);
+            Console.WriteLine($"Starting new maze: {MazeInstance.Instance.MazeName}");
+            MazeCell startLocation = MazeUtilities.mazeFor(mazeName);
+            Navigation.NavigateTo("/Solutions");
+            invalidName = null;
+        }
+        else
+        {
+            invalidName = "Please enter a valid name";
+        }
     }
 }
