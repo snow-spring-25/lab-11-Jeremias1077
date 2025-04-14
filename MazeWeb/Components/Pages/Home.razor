@@ -6,11 +6,22 @@
 <h1>Maze Game</h1>
 
 Welcome to the maze game!
-<br <label>Name
-<input @bind=mazeName />
-</label>
 
-<button @onclick="startGame">Start</button>
+@if (!gameStarted)
+{
+    <br>
+    <label>Name
+        <input @bind=mazeName />
+    </label>
+
+    <button @onclick="startGame">Confirm</button>
+}
+
+else
+{
+    <br>
+    <button @onclick="joinGame">Join the Game</button>
+}
 
 <p style="color:red;">@invalidName</p>
 
@@ -18,19 +29,29 @@ Welcome to the maze game!
 @code {
     public string mazeName;
     private string? invalidName;
+    public static bool gameStarted;
+
     void startGame()
     {
-        if (!string.IsNullOrEmpty(mazeName))
+        if (!string.IsNullOrWhiteSpace(mazeName))
         {
             MazeInstance.Instance.StartNewMaze(mazeName);
             Console.WriteLine($"Starting new maze: {MazeInstance.Instance.MazeName}");
             MazeCell startLocation = MazeUtilities.mazeFor(mazeName);
-            Navigation.NavigateTo("/Solutions");
             invalidName = null;
+            gameStarted = true;
+            StateHasChanged();
         }
         else
         {
+            StateHasChanged();
+            gameStarted = false;
             invalidName = "Please enter a valid name";
         }
+    }
+
+    void joinGame()
+    {
+        Navigation.NavigateTo("/GamePage");
     }
 }
