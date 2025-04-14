@@ -2,8 +2,19 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>World's most amazing thing</h1>
+<h1>Maze Game</h1>
 
-Maze Solver!
+Welcome to the maze game!
+<br
+<label>Name
+    <input @bind=mazeName />
+</label>
+<a href="/Solutions">Solutions</a>
 
-<a href="/BasicMaze">BasicMaze</a>
+@code{
+    string mazeName;
+    void starGame()
+    {
+        mazeName = userName;
+    }
+}
