@@ -2,3 +2,63 @@
 <a href="/">Return</a>
 <br>
 <a href="/Solutions">View Solutions</a>
+
+<head>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        div {
+            text-align: center;
+        }
+
+        input {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Counter</h1>
+    <p style="color: blue;">You are currently in cell @MazeInstance.Instance.CurrentLocation
+        <br>
+        You Found: @MazeInstance.Instance.ItemInCurrentLocation
+    </p>
+    <div>
+        <input @bind="userInput" placeholder="Enter direction" />
+        <button @onclick="MakeMove">Move</button>
+    </div>
+</body>
+
+<h2>Move History</h2>
+<ul style="color: rgb(129, 218, 137);">
+    @foreach (var move in moveHistory)
+    {
+        <li>@move</li>
+    }
+</ul>
+
+@code
+{
+    private string? userInput;
+    private string moveMessage = "";
+    private static List<string> moveHistory = new List<string>();
+
+    void MakeMove()
+    {
+        moveMessage = MazeInstance.Instance.Movement(userInput);
+        moveHistory.Insert(0, moveMessage);
+        userInput = null;
+
+        if (moveHistory.Count > 10)
+        {
+            moveHistory.RemoveAt(moveHistory.Count - 1);
+        }
+    }
+}

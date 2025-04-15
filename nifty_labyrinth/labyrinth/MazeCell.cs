@@ -15,7 +15,7 @@ public record NodeLink(MazeCell From, string Direction, MazeCell To)
 
 /**
  * Type representing a cell in a maze.
- */ 
+ */
 public class MazeCell
 {
     public MazeCell()

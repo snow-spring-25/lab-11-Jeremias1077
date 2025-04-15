@@ -4,8 +4,8 @@
 <PageTitle>Home</PageTitle>
 
 <h1>Maze Game</h1>
-
 Welcome to the maze game!
+<br>
 
 @if (!gameStarted)
 {
@@ -38,6 +38,7 @@ else
             MazeInstance.Instance.StartNewMaze(mazeName);
             Console.WriteLine($"Starting new maze: {MazeInstance.Instance.MazeName}");
             MazeCell startLocation = MazeUtilities.mazeFor(mazeName);
+            mazeName = null;
             invalidName = null;
             gameStarted = true;
             StateHasChanged();
@@ -47,9 +48,9 @@ else
             StateHasChanged();
             gameStarted = false;
             invalidName = "Please enter a valid name";
+            mazeName = null;
         }
     }
-
     void joinGame()
     {
         Navigation.NavigateTo("/GamePage");
