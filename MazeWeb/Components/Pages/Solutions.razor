@@ -9,13 +9,17 @@
 
 <button @onclick="GenerateMaze"> Show Normal Maze</button>
 <button @onclick="GenerateTwistyeMaze"> Show Twisty Maze</button>
-
-<MermaidDiagram Definition="@pathOutOfMaze" />
+@if (pathOutOfMaze != "")
+{
+    <MermaidDiagram Definition="@pathOutOfMaze" />
+}
 <p></p>
 <p></p>
 <p></p>
-<MermaidDiagram Definition="@pathOutOfTwistyMaze" />
-
+@if (pathOutOfTwistyMaze != "")
+{
+    <MermaidDiagram Definition="@pathOutOfTwistyMaze" />
+}
 
 @code
 {
