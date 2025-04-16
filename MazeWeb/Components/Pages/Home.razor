@@ -10,8 +10,8 @@ Welcome to the maze game!
 @if (!gameStarted)
 {
     <br>
-    <label>Name
-        <input @bind=mazeName />
+    <label>Enter the Map Seed/Name
+        <input @bind=mazeSeed />
     </label>
 
     <button @onclick="startGame">Confirm</button>
@@ -22,34 +22,32 @@ else
     <br>
     <button @onclick="joinGame">Join the Normal Maze</button>
     <button @onclick="joinGameTwisty">Join the Twisty Maze</button>
-
 }
 
 <p style="color:red;">@invalidName</p>
 
 
 @code {
-    public string mazeName;
+    public string mazeSeed;
     private string? invalidName;
     public static bool gameStarted;
 
     void startGame()
     {
-        if (!string.IsNullOrWhiteSpace(mazeName))
+        if (!string.IsNullOrWhiteSpace(mazeSeed))
         {
-            MazeInstance.Instance.StartNewMaze(mazeName);
-            Console.WriteLine($"Starting new maze: {MazeInstance.Instance.MazeName}");
-            @* MazeCell startLocation = MazeUtilities.mazeFor(mazeName); *@
+            MazeGame.Instance.StartNewMaze(mazeSeed);
+            
             invalidName = null;
             gameStarted = true;
             StateHasChanged();
         }
         else
         {
-            StateHasChanged();
             gameStarted = false;
             invalidName = "Please enter a valid name";
-            mazeName = null;
+            mazeSeed = null;
+            StateHasChanged();
         }
     }
     void joinGame()

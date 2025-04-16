@@ -6,7 +6,7 @@ public class MazeGameTwisty
     public MazeCell CurrentLocation { get; private set; }
     public Item ItemInCurrentLocation { get; private set; }
 
-    public void StartNewMaze(string mazeName)
+    public void StartNewMazeTwisty(string mazeName)
     {
         MazeName = mazeName;
         StartingLocation = MazeUtilities.twistyMazeFor(mazeName);

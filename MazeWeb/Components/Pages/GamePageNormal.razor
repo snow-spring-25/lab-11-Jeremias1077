@@ -26,13 +26,15 @@
 <body>
 
     <h1>Normal Maze</h1>
-    <p style="color: blue;">You are currently in cell @MazeInstance.Instance.CurrentLocation
+    <p style="color: blue;">You are currently in cell @myLocation
         <br>
-        You Found: @MazeInstance.Instance.ItemInCurrentLocation
+        You Found: @myLocation.WhatsHere
     </p>
     <div>
-        <input @bind="userInput" placeholder="Enter direction" />
-        <button @onclick="MakeMove">Move</button>
+        <form @onsubmit="MakeMove">
+            <input @bind="userInput" placeholder="Enter direction" />
+            <input type="submit" value="Move" />
+        </form>
     </div>
 </body>
 
@@ -46,13 +48,14 @@
 
 @code
 {
+    private MazeCell myLocation = MazeGame.Instance.StartingLocation;
     private string? userInput;
     private string moveMessage = "";
-    private static List<string> moveHistory = new List<string>();
+    private List<string> moveHistory = new List<string>();
 
     void MakeMove()
     {
-        moveMessage = MazeInstance.Instance.Movement(userInput);
+        (myLocation, moveMessage) = MazeGame.Instance.Movement(userInput, myLocation);
         moveHistory.Insert(0, moveMessage);
         userInput = null;
 
@@ -60,5 +63,6 @@
         {
             moveHistory.RemoveAt(moveHistory.Count - 1);
         }
+        StateHasChanged();
     }
 }
