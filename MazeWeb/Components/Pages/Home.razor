@@ -20,7 +20,9 @@ Welcome to the maze game!
 else
 {
     <br>
-    <button @onclick="joinGame">Join the Game</button>
+    <button @onclick="joinGame">Join the Normal Maze</button>
+    <button @onclick="joinGameTwisty">Join the Twisty Maze</button>
+
 }
 
 <p style="color:red;">@invalidName</p>
@@ -37,8 +39,7 @@ else
         {
             MazeInstance.Instance.StartNewMaze(mazeName);
             Console.WriteLine($"Starting new maze: {MazeInstance.Instance.MazeName}");
-            MazeCell startLocation = MazeUtilities.mazeFor(mazeName);
-            mazeName = null;
+            @* MazeCell startLocation = MazeUtilities.mazeFor(mazeName); *@
             invalidName = null;
             gameStarted = true;
             StateHasChanged();
@@ -54,5 +55,9 @@ else
     void joinGame()
     {
         Navigation.NavigateTo("/GamePage");
+    }
+    void joinGameTwisty()
+    {
+        Navigation.NavigateTo("/GamePageTwisty");
     }
 }
