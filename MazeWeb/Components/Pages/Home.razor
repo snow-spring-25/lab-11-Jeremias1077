@@ -37,7 +37,7 @@ else
         if (!string.IsNullOrWhiteSpace(mazeSeed))
         {
             MazeGame.Instance.StartNewMaze(mazeSeed);
-            
+            MazeGame.TwistyInstance.StartNewTwistyMaze(mazeSeed);
             invalidName = null;
             gameStarted = true;
             StateHasChanged();
