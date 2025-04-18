@@ -7,6 +7,7 @@
 
 @if (hasName == true)
 {
+
     <head>
         <style>
             h1 {
@@ -70,7 +71,7 @@ else
 
     void MakeMove()
     {
-        (myLocation, moveMessage) = MazeGame.Instance.Movement(userInput, myLocation);
+        (myLocation, moveMessage) = MazeGame.Instance.Movement(userInput, myLocation, playerName);
         moveHistory.Insert(0, moveMessage);
         userInput = null;
 
@@ -83,7 +84,7 @@ else
 
     void HasEnteredName()
     {
-        MazeGame.Instance.Players.Add(playerName, new Player{Name = playerName, Location = myLocation});
+        MazeGame.Instance.Players.Add(playerName, new Player { Name = playerName, Location = myLocation });
         if (!string.IsNullOrWhiteSpace(playerName))
         {
             hasName = true;
