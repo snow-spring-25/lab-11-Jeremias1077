@@ -124,6 +124,7 @@ else
         if (string.IsNullOrWhiteSpace(playerName))
         {
             invalidName = "Please enter a valid name";
+            playerName = null;
             hasName = false;
         }
         else if (MazeGame.Instance.Players.ContainsKey(playerName))
