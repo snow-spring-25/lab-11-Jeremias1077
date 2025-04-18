@@ -240,7 +240,7 @@ public class MazeUtilities
 
             if (start.South != null)
             {
-                var next = new NodeLink(start, "E", start.South);
+                var next = new NodeLink(start, "S", start.South);
                 if (visited.Contains(next) == false)
                 {
                     visited.Add(next);
@@ -250,7 +250,7 @@ public class MazeUtilities
 
             if (start.West != null)
             {
-                var next = new NodeLink(start, "E", start.West);
+                var next = new NodeLink(start, "W", start.West);
                 if (visited.Contains(next) == false)
                 {
                     visited.Add(next);

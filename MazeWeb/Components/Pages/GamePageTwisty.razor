@@ -5,6 +5,25 @@
 
 @if (hasName == true)
 {
+    //check if leaderboard works
+    <h2>Leaderboard</h2>
+    <table border="1" style="color: rgb(34, 31, 43); text-align:center;">
+        <tr>
+            <th>Player Name</th>
+            <th>Current Cell</th>
+            <th>Items Collected</th>
+        </tr>
+        @foreach (var player in MazeGame.Instance.Players.Values)
+        {
+            <tr>
+                <td>
+                    @(MazeGame.Instance.Winner == player ? $"{player.Name} 👑" : player.Name)
+                </td>
+                <td>@player.Location.Id</td>
+                <td>@string.Join(", ", player.Items.Select(item => item.ToString()))</td>
+            </tr>
+        }
+    </table>
 
     <head>
         <style>
@@ -39,6 +58,20 @@
                 <input type="submit" value="Move" />
             </form>
         </div>
+        @if (hintsVisible)
+        {
+            <ul>
+                <li>North @myLocation.North</li>
+                <li>South @myLocation.South</li>
+                <li>East @myLocation.East</li>
+                <li>West @myLocation.West</li>
+            </ul>
+            <button @onclick=@(() => hintsVisible = false)>Hide Hints</button>
+        }
+        else
+        {
+            <button @onclick=@(() => hintsVisible = true)>Show Hints</button>
+        }
     </body>
 
     <h2>Move History</h2>
@@ -57,8 +90,13 @@ else
     </form>
 }
 
+@invalidName
+
+
 @code
 {
+    bool hintsVisible = false;
+    private string? invalidName;
     string playerName = null;
     bool hasName = false;
     private MazeCell myLocation = MazeGame.TwistyInstance.StartingLocation;
@@ -80,16 +118,22 @@ else
 
     void HasEnteredName()
     {
-        MazeGame.Instance.Players.Add(playerName, new Player { Name = playerName, Location = myLocation });
-        if (!string.IsNullOrWhiteSpace(playerName))
+        if (string.IsNullOrWhiteSpace(playerName))
         {
-            hasName = true;
-            StateHasChanged();
+            invalidName = "Please enter a valid name";
+            hasName = false;
+        }
+        else if (MazeGame.Instance.Players.ContainsKey(playerName))
+        {
+            invalidName = "This name is already taken. Please choose another name";
+            hasName = false;
         }
         else
         {
-            hasName = false;
-            StateHasChanged();
+            MazeGame.Instance.Players.Add(playerName, new Player { Name = playerName, Location = myLocation });
+            invalidName = null;
+            hasName = true;
         }
+        StateHasChanged();
     }
 }
