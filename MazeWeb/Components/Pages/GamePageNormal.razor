@@ -60,6 +60,20 @@
                 <input type="submit" value="Move" />
             </form>
         </div>
+        @if (hintsVisible)
+        {
+            <ul>
+                <li>North @myLocation.North</li>
+                <li>South @myLocation.South</li>
+                <li>East @myLocation.East</li>
+                <li>West @myLocation.West</li>
+            </ul>
+            <button @onclick=@(() => hintsVisible = false)>Hide Hints</button>
+        }
+        else
+        {
+            <button @onclick=@(() => hintsVisible = true)>Show Hints</button>
+        }
     </body>
 
     <h2>Move History</h2>
@@ -83,6 +97,7 @@ else
 
 @code
 {
+    bool hintsVisible = false;
     private string? invalidName;
     string playerName = null;
     bool hasName = false;
@@ -124,4 +139,5 @@ else
         }
         StateHasChanged();
     }
+
 }

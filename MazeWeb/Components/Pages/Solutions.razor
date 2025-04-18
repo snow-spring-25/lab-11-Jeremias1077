@@ -28,9 +28,9 @@
     string pathOutOfTwistyMaze = "";
     private void GenerateMaze()
     {
-        MazeCell startLocation = MazeUtilities.mazeFor(name);
-
-        var path = MazeUtilities.ExploreMaze(startLocation);
+        Console.WriteLine("Generating Solution for Regular Maze");
+        var path = MazeUtilities.ExploreMaze(MazeGame.Instance.StartingLocation);
+        var path2 = MazeUtilities.ExploreMaze(MazeGame.Instance.StartingLocation);
         var instructions = path.Select(node => $"{node.From.Id}[\"{node.From}\"]--{node.Label}-->{node.To.Id}[\"{node.To}\"]");
         pathOutOfMaze = "graph TD\n" + string.Join("\n", instructions);
         Console.WriteLine(pathOutOfMaze);
@@ -38,9 +38,8 @@
 
     private void GenerateTwistyeMaze()
     {
-        MazeCell startLocation = MazeUtilities.twistyMazeFor(name);
-
-        var path = MazeUtilities.ExploreMaze(startLocation);
+        Console.WriteLine("Generating Solution for Twisty Maze");
+        var path = MazeUtilities.ExploreMaze(MazeGame.TwistyInstance.StartingLocation);
         var instructions = path.Select(node => $"{node.From.Id}[\"{node.From}\"]--{node.Label}-->{node.To.Id}[\"{node.To}\"]");
         pathOutOfTwistyMaze = "graph TD\n" + string.Join("\n", instructions);
         Console.WriteLine(pathOutOfTwistyMaze);
