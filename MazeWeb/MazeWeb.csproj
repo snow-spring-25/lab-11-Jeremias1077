@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\nifty_labyrinth\nifty_labyrinth.csproj" />
+    <ProjectReference Include="..\MazeWeb.Persistence\MazeWeb.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -54,6 +54,8 @@
             <br>
             You Found: @myLocation.WhatsHere
         </p>
+        <br>
+        <p>You have made @currentPlayer.MoveCount moves.</p>
         <div>
             <form @onsubmit="MakeMove">
                 <input @bind="userInput" placeholder="Enter direction" />
@@ -105,12 +107,14 @@ else
     private string? userInput;
     private string moveMessage = "";
     private List<string> moveHistory = new List<string>();
+    Player currentPlayer = null;
 
     void MakeMove()
     {
         (myLocation, moveMessage) = MazeGame.Instance.Movement(userInput, myLocation, playerName);
         moveHistory.Insert(0, moveMessage);
         userInput = null;
+        currentPlayer.MoveCount++;
 
         if (moveHistory.Count > 10)
         {
@@ -134,7 +138,8 @@ else
         }
         else
         {
-            MazeGame.Instance.Players.Add(playerName, new Player { Name = playerName, Location = myLocation });
+            currentPlayer = new Player { Name = playerName, Location = myLocation };
+            MazeGame.Instance.Players.Add(playerName, currentPlayer);
             invalidName = null;
             hasName = true;
         }
