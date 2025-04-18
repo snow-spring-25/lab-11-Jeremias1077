@@ -1,3 +1,5 @@
+using MazeWeb.Persistence;
+
 namespace labyrinth;
 
 public class MazeGame
@@ -10,6 +12,7 @@ public class MazeGame
 
     public Dictionary<string, Player> Players { get; } = new();
     public Player? Winner { get; private set; }
+    private bool isTwisty = false;
 
     public void StartNewMaze(string mazeName)
     {
@@ -21,6 +24,7 @@ public class MazeGame
     {
         MazeName = mazeName;
         StartingLocation = MazeUtilities.twistyMazeFor(mazeName);
+        isTwisty = true;
     }
 
     //Events
@@ -56,6 +60,14 @@ public class MazeGame
                     if (Players[playerName].Items.Count >= 3 && Winner == null)
                     {
                         Winner = Players[playerName];
+                        var highScore = new HighScore
+                        {
+                            MazeType = isTwisty ? "Twist" : "Normal",
+                            PlayerName = playerName,
+                            Timestamp = DateTime.Now,
+                            TotalMoves = Winner.MoveCount
+                        };
+                        IDataStore.Instance.AddHighScore(highScore);
                     }
                 }
                 UpdateLeaderboard?.Invoke();
