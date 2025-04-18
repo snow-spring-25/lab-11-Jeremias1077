@@ -9,7 +9,7 @@
 {
     //check if leaderboard works
     <h2>Leaderboard</h2>
-    <table border="1" style="color: rgb(157, 243, 210); text-align:center;">
+    <table border="1" style="color: rgb(34, 31, 43); text-align:center;">
         <tr>
             <th>Player Name</th>
             <th>Current Cell</th>
@@ -18,11 +18,11 @@
         @foreach (var player in MazeGame.Instance.Players.Values)
         {
             <tr>
-                <td>@player.Name</td>
-                <td>@player.Location.Id</td>
                 <td>
-                    @string.Join(", ", player.Items.Select(item => item.ToString()))
+                    @(MazeGame.Instance.Winner == player ? $"{player.Name} 👑" : player.Name)
                 </td>
+                <td>@player.Location.Id</td>
+                <td>@string.Join(", ", player.Items.Select(item => item.ToString()))</td>
             </tr>
         }
     </table>

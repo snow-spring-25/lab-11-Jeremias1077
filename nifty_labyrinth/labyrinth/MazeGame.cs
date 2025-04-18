@@ -29,6 +29,10 @@ public class MazeGame
     //Try to understand this -
     public (MazeCell, string) Movement(string direction, MazeCell location, string playerName)
     {
+        if (Winner != null)
+        {
+            return (location, $"{Winner.Name} Wins!");
+        }
         try
         {
             var nextCell = direction switch
