@@ -65,5 +65,4 @@ public class MazeGame
 
         return (location, $"You can't go {direction} from cell {location?.Id}.");
     }
-
 }

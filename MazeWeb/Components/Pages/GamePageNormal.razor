@@ -7,6 +7,25 @@
 
 @if (hasName == true)
 {
+    //check if leaderboard works
+    <h2>Leaderboard</h2>
+    <table border="1" style="color: rgb(157, 243, 210); text-align:center;">
+        <tr>
+            <th>Player Name</th>
+            <th>Current Cell</th>
+            <th>Items Collected</th>
+        </tr>
+        @foreach (var player in MazeGame.Instance.Players.Values)
+        {
+            <tr>
+                <td>@player.Name</td>
+                <td>@player.Location.Id</td>
+                <td>
+                    @string.Join(", ", player.Items.Select(item => item.ToString()))
+                </td>
+            </tr>
+        }
+    </table>
 
     <head>
         <style>
@@ -59,9 +78,12 @@ else
     </form>
 }
 
+@invalidName
+
 
 @code
 {
+    private string? invalidName;
     string playerName = null;
     bool hasName = false;
     private MazeCell myLocation = MazeGame.Instance.StartingLocation;
@@ -84,16 +106,22 @@ else
 
     void HasEnteredName()
     {
-        MazeGame.Instance.Players.Add(playerName, new Player { Name = playerName, Location = myLocation });
-        if (!string.IsNullOrWhiteSpace(playerName))
+        if (string.IsNullOrWhiteSpace(playerName))
         {
-            hasName = true;
-            StateHasChanged();
+            invalidName = "Please enter a valid name";
+            hasName = false;
+        }
+        else if (MazeGame.Instance.Players.ContainsKey(playerName))
+        {
+            invalidName = "This name is already taken. Please choose another name";
+            hasName = false;
         }
         else
         {
-            hasName = false;
-            StateHasChanged();
+            MazeGame.Instance.Players.Add(playerName, new Player { Name = playerName, Location = myLocation });
+            invalidName = null;
+            hasName = true;
         }
+        StateHasChanged();
     }
 }
