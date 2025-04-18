@@ -13,11 +13,11 @@
             <th>Current Cell</th>
             <th>Items Collected</th>
         </tr>
-        @foreach (var player in MazeGame.Instance.Players.Values)
+        @foreach (var player in MazeGame.TwistyInstance.Players.Values)
         {
             <tr>
                 <td>
-                    @(MazeGame.Instance.Winner == player ? $"{player.Name} 👑" : player.Name)
+                    @(MazeGame.TwistyInstance.Winner == player ? $"{player.Name} 👑" : player.Name)
                 </td>
                 <td>@player.Location.Id</td>
                 <td>@string.Join(", ", player.Items.Select(item => item.ToString()))</td>
@@ -47,7 +47,7 @@
 
     <body>
 
-        <h1>Normal Maze</h1>
+        <h1>Twisty Maze</h1>
         <p style="color: blue;">You are currently in cell @myLocation
             <br>
             You Found: @myLocation.WhatsHere
@@ -90,7 +90,7 @@ else
     </form>
 }
 
-@invalidName
+<p style="color:red;">@invalidName</p>
 
 
 @code
@@ -106,7 +106,7 @@ else
 
     void MakeMove()
     {
-        (myLocation, moveMessage) = MazeGame.Instance.Movement(userInput, myLocation, playerName);
+        (myLocation, moveMessage) = MazeGame.TwistyInstance.Movement(userInput, myLocation, playerName);
         moveHistory.Insert(0, moveMessage);
         userInput = null;
 
@@ -124,17 +124,21 @@ else
             playerName = null;
             hasName = false;
         }
-        else if (MazeGame.Instance.Players.ContainsKey(playerName))
+        else if (MazeGame.TwistyInstance.Players.ContainsKey(playerName))
         {
             invalidName = "This name is already taken. Please choose another name";
             hasName = false;
         }
         else
         {
-            MazeGame.Instance.Players.Add(playerName, new Player { Name = playerName, Location = myLocation });
+            MazeGame.TwistyInstance.Players.Add(playerName, new Player { Name = playerName, Location = myLocation });
             invalidName = null;
             hasName = true;
         }
         StateHasChanged();
+    }
+    protected override void OnInitialized()
+    {
+        MazeGame.TwistyInstance.UpdateLeaderboard += () => InvokeAsync(StateHasChanged);
     }
 }

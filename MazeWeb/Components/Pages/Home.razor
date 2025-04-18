@@ -10,11 +10,13 @@ Welcome to the maze game!
 @if (!gameStarted)
 {
     <br>
-    <label>Enter the Map Seed/Name
-        <input @bind=mazeSeed />
-    </label>
-
-    <button @onclick="startGame">Confirm</button>
+        <div>
+            <form @onsubmit="startGame">
+                <input @bind="mazeSeed" placeholder="Enter the Map Seed/Name" />
+                <input type="submit" value="Confirm" />
+            </form>
+        </div>
+    @* <button @onclick="startGame">Confirm</button> *@
 }
 
 else

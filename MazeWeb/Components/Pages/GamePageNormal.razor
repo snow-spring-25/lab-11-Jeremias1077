@@ -92,7 +92,7 @@ else
     </form>
 }
 
-@invalidName
+<p style="color:red;">@invalidName</p>
 
 
 @code
@@ -139,6 +139,10 @@ else
             hasName = true;
         }
         StateHasChanged();
+    }
+    protected override void OnInitialized()
+    {
+        MazeGame.Instance.UpdateLeaderboard += () => InvokeAsync(StateHasChanged);
     }
 
 }
